@@ -2,15 +2,34 @@ package com.ovm.uy.aviation.model.clients;
 
 import java.io.Serializable;
 
+import javax.persistence.ColumnResult;
+import javax.persistence.ConstructorResult;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Index;
+import javax.persistence.NamedNativeQueries;
+import javax.persistence.NamedNativeQuery;
+import javax.persistence.SqlResultSetMapping;
 import javax.persistence.Table;
+import javax.persistence.Version;
 
 @SuppressWarnings("serial")
 @Entity
 @Table(indexes = { @Index(name = "code", columnList = "code", unique = false) })
+
+@SqlResultSetMapping(name = "ClientLigthDtoMapping", 
+	classes =  
+		@ConstructorResult(targetClass = ClientLigthDto.class, 
+				columns = { 
+						@ColumnResult(name = "id"),
+						@ColumnResult(name = "code"), 
+						@ColumnResult(name = "name"), 
+						@ColumnResult(name = "telephone1") }) )
+
+@NamedNativeQueries({
+		@NamedNativeQuery(name = "selectClientLigthNotRemoved", query = "SELECT C.id, C.code, C.name, C.telephone1 FROM Client C "
+				+ "WHERE C.removed <> true",  resultSetMapping = "ClientLigthDtoMapping") })
 public class Client implements Serializable {
 	@Id
 	@GeneratedValue
@@ -25,6 +44,13 @@ public class Client implements Serializable {
 	private String email1;
 	private String email2;
 	private String addres;
+	private boolean removed;
+	@Version
+	private Long version;
+
+	public Client() {
+
+	}
 
 	public Long getId() {
 		return id;
@@ -112,6 +138,14 @@ public class Client implements Serializable {
 
 	public void setAddres(String addres) {
 		this.addres = addres;
+	}
+
+	public boolean isRemoved() {
+		return removed;
+	}
+
+	public void setRemoved(boolean removed) {
+		this.removed = removed;
 	}
 
 	@Override

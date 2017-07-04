@@ -1,4 +1,4 @@
-aviation: Assortment of technologies including Arquillian
+Aviation: Assortment of technologies including Arquillian
 ========================
 Author: Omar Villadeamigo
 Level: Intermediate
