@@ -22,7 +22,7 @@ public class ClientList implements Serializable {
 	@EJB
 	private ClientBean clientBean;
 
-	LazyDataModel<ClientLigthDto> values;
+	List<ClientLigthDto> values;
 
 	// Filter<ClientLigthDto> filter = new Filter<>(new ClientLigthDto());
 
@@ -32,20 +32,8 @@ public class ClientList implements Serializable {
 
 	@PostConstruct
 	private void init() {
-		values = new LazyDataModel<ClientLigthDto>() {
-			@Override
-			public List<ClientLigthDto> load(int first, int pageSize, String sortField, SortOrder sortOrder,
-					Map<String, Object> filters) {
+		values = clientBean.findAll();
 
-				return clientBean.findAll();
-			}
-
-			@Override
-			public int getRowCount() {
-				return super.getRowCount();
-			}
-
-		};
 	}
 
 	public ClientBean getClientBean() {
@@ -56,11 +44,11 @@ public class ClientList implements Serializable {
 		this.clientBean = clientBean;
 	}
 
-	public LazyDataModel<ClientLigthDto> getValues() {
+	public List<ClientLigthDto> getValues() {
 		return values;
 	}
 
-	public void setValues(LazyDataModel<ClientLigthDto> values) {
+	public void setValues(List<ClientLigthDto> values) {
 		this.values = values;
 	}
 

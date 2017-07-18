@@ -36,8 +36,7 @@
 							styleClass="btn-danger" action="#{clientList.delete}"
 							disabled="#{empty clientList.selectedValues or clientList.selectedValues.size() == 0}"
 							process="@this" update="@form">
-							<p:confirm header="Confirmación"
-								message="Esta seguro que desea borrarlo/s?"
+							<p:confirm header="Confirmar" message="Esta seguro?"
 								icon="ui-icon-danger" />
 						</p:commandButton>
 						<p:spacer width="5" />
@@ -53,7 +52,7 @@
 							process="@this" update="@form"
 							disabled="#{empty clientList.selectedValues or clientList.selectedValues.size() == 0}"
 							icon="fa fa-trash">
-							<p:confirm header="Confirmation" message="Are you sure?"
+							<p:confirm header="Confirmar" message="Esta seguro?"
 								icon="ui-icon-danger" />
 						</p:menuitem>
 						<p:menuitem value="View selected" update="@(.ui-dialog)"
@@ -64,9 +63,10 @@
 
 					<p:separator />
 					<p:dataTable widgetVar="carsTable" var="c"
-						value="#{clientList.values}" rows="5" rowKey="#{c.id}" lazy="true"
+						value="#{clientList.values}" rows="5" rowKey="#{c.id}"
 						paginator="true" filteredValue="#{clientList.filteredValues}"
-						paginatorPosition="bottom" selection="#{clientList.selectedValues}"
+						paginatorPosition="bottom"
+						selection="#{clientList.selectedValues}"
 						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {JumpToPageDropdown}"
 						currentPageReportTemplate="[ {startRecord} to {endRecord} of {totalRecords} ]"
 						rowsPerPageTemplate="5,10,15,20,30">
@@ -81,19 +81,26 @@
 							update="@(.ui-button, .ui-confirm-dialog)" />
 
 
-						
+
 						<p:column selectionMode="multiple" width="5%"
 							styleClass="align-center" />
 
-						<p:column headerText="Model" filterBy="#{c.name}"
-							sortBy="#{c.name}" filterMatchMode="contains">
-							 
-							<p:link value="#{c.name}"  >
+						<p:column headerText="Código" filterBy="#{c.code}"
+							sortBy="#{c.code}" filterMatchMode="contains">
+							<p:link value="#{c.code}" outcome="client-form.xhtml">
 								<f:param name="id" value="#{c.id}" />
 							</p:link>
-
 						</p:column>
-					 
+
+						<p:column headerText="Nombre" filterBy="#{c.name}"
+							sortBy="#{c.name}" filterMatchMode="contains">
+ 							#{c.name} 
+						</p:column>
+						<p:column headerText="Telefono" filterBy="#{c.telephone1}"
+							sortBy="#{c.telephone1}" filterMatchMode="contains">
+ 							#{c.telephone1} 
+						</p:column>
+
 					</p:dataTable>
 				</div>
 			</div>
@@ -110,8 +117,8 @@
 
 		<p:dialog header="Selected cars" widgetVar="selectedCars" height="250"
 			width="400" responsive="true" styleClass="box-success">
-			<p:dataList id="selectedCarsList" value="#{clientList.selectedValues}"
-				var="car" type="definition">
+			<p:dataList id="selectedCarsList"
+				value="#{clientList.selectedValues}" var="car" type="definition">
                 ID: #{car.id} - Name: #{car.name} - Model: #{car.model}
             </p:dataList>
 		</p:dialog>

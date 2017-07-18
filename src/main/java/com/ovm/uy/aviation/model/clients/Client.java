@@ -14,27 +14,27 @@ import javax.persistence.SqlResultSetMapping;
 import javax.persistence.Table;
 import javax.persistence.Version;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 @SuppressWarnings("serial")
 @Entity
 @Table(indexes = { @Index(name = "code", columnList = "code", unique = false) })
 
-@SqlResultSetMapping(name = "ClientLigthDtoMapping", 
-	classes =  
-		@ConstructorResult(targetClass = ClientLigthDto.class, 
-				columns = { 
-						@ColumnResult(name = "id"),
-						@ColumnResult(name = "code"), 
-						@ColumnResult(name = "name"), 
-						@ColumnResult(name = "telephone1") }) )
+@SqlResultSetMapping(name = "ClientLigthDtoMapping", classes = {
+		@ConstructorResult(targetClass = com.ovm.uy.aviation.model.clients.ClientLigthDto.class, columns = {
+				@ColumnResult(name = "id", type = Long.class), @ColumnResult(name = "code"),
+				@ColumnResult(name = "name"), @ColumnResult(name = "telephone1") }) })
 
 @NamedNativeQueries({
 		@NamedNativeQuery(name = "selectClientLigthNotRemoved", query = "SELECT C.id, C.code, C.name, C.telephone1 FROM Client C "
-				+ "WHERE C.removed <> true",  resultSetMapping = "ClientLigthDtoMapping") })
+				+ "WHERE C.removed <> true", resultSetMapping = "ClientLigthDtoMapping") })
 public class Client implements Serializable {
 	@Id
 	@GeneratedValue
 	private Long id;
+	@NotEmpty
 	private String code;
+	@NotEmpty
 	private String name;
 	private String rut;
 	private String telephone1;
