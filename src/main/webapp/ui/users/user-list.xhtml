@@ -15,7 +15,7 @@
 	</ui:define>
 
 	<ui:define name="title">
-        Lista de Clientes
+        Lista de Usuarios
     </ui:define>
 
 	<ui:define name="description">
@@ -33,8 +33,8 @@
 							icon="fa fa-plus" value="Nuevo" styleClass="btn-primary" />
 						<p:spacer width="5" />
 						<p:commandButton value="Borrar selecionado/s" icon="fa fa-trash"
-							styleClass="btn-danger" action="#{clientList.delete}"
-							disabled="#{empty clientList.selectedValues or clientList.selectedValues.size() == 0}"
+							styleClass="btn-danger" action="#{userList.delete}"
+							disabled="#{empty userList.selectedValues or userList.selectedValues.size() == 0}"
 							process="@this" update="@form">
 							<p:confirm header="Confirmar" message="Esta seguro?"
 								icon="ui-icon-danger" />
@@ -42,31 +42,30 @@
 						<p:spacer width="5" />
 						<p:commandButton value="View selected" update="@(.ui-dialog)"
 							styleClass="btn-info"
-							disabled="#{empty clientList.selectedValues or clientList.selectedValues.size() == 0}"
+							disabled="#{empty userList.selectedValues or userList.selectedValues.size() == 0}"
 							oncomplete="PF('selectedClients').show()" icon="fa fa-search" />
 					</div>
 
 					<p:splitButton value="New" action="client-form?faces-redirect=true"
 						icon="fa fa-plus" styleClass="hidden-md hidden-lg btn-primary">
-						<p:menuitem value="Delete Selected" action="#{clientList.delete}"
+						<p:menuitem value="Delete Selected" action="#{userList.delete}"
 							process="@this" update="@form"
-							disabled="#{empty clientList.selectedValues or clientList.selectedValues.size() == 0}"
+							disabled="#{empty userList.selectedValues or userList.selectedValues.size() == 0}"
 							icon="fa fa-trash">
 							<p:confirm header="Confirmar" message="Esta seguro?"
 								icon="ui-icon-danger" />
 						</p:menuitem>
 						<p:menuitem value="View selected" update="@(.ui-dialog)"
 							oncomplete="PF('selectedCars').show()"
-							disabled="#{empty clientList.selectedValues or clientList.selectedValues.size() == 0}"
+							disabled="#{empty userList.selectedValues or userList.selectedValues.size() == 0}"
 							icon="fa fa-search" />
 					</p:splitButton>
 
 					<p:separator />
 					<p:dataTable widgetVar="carsTable" var="c" reflow="true"
-						value="#{clientList.values}" rows="5" rowKey="#{c.id}"
-						paginator="true" filteredValue="#{clientList.filteredValues}"
-						paginatorPosition="bottom"
-						selection="#{clientList.selectedValues}"
+						value="#{userList.values}" rows="5" rowKey="#{c.id}"
+						paginator="true" filteredValue="#{userList.filteredValues}"
+						paginatorPosition="bottom" selection="#{userList.selectedValues}"
 						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {JumpToPageDropdown}"
 						currentPageReportTemplate="[ {startRecord} de {endRecord} de {totalRecords} ]"
 						rowsPerPageTemplate="5,10,15,20,30">
@@ -85,20 +84,16 @@
 						<p:column selectionMode="multiple" width="5%"
 							styleClass="align-center" />
 
-						<p:column headerText="Código" filterBy="#{c.code}"
-							sortBy="#{c.code}" filterMatchMode="contains">
-							<p:link value="#{c.code}" outcome="client-form.xhtml">
-								<f:param name="id" value="#{c.id}" />
+						<p:column headerText="Código" filterBy="#{c.email}"
+							sortBy="#{c.email}" filterMatchMode="contains">
+							<p:link value="#{c.email}" outcome="client-form.xhtml">
+								<f:param name="id" value="#{c.email}" />
 							</p:link>
 						</p:column>
 
 						<p:column headerText="Nombre" filterBy="#{c.name}"
 							sortBy="#{c.name}" filterMatchMode="contains">
  							#{c.name} 
-						</p:column>
-						<p:column headerText="Telefono" filterBy="#{c.telephone1}"
-							sortBy="#{c.telephone1}" filterMatchMode="contains">
- 							#{c.telephone1} 
 						</p:column>
 
 					</p:dataTable>
@@ -112,16 +107,6 @@
 					styleClass="btn-danger ui-confirmdialog-no" icon="fa fa-close" />
 			</p:confirmDialog>
 		</h:form>
-
-
-
-		<p:dialog header="Selected cars" widgetVar="selectedCars" height="250"
-			width="400" responsive="true" styleClass="box-success">
-			<p:dataList id="selectedCarsList"
-				value="#{clientList.selectedValues}" var="car" type="definition">
-                ID: #{car.id} - Name: #{car.name} - Model: #{car.model}
-            </p:dataList>
-		</p:dialog>
 
 	</ui:define>
 

@@ -3,6 +3,7 @@ package com.ovm.uy.aviation.controller.administration.clients;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
+import java.util.jar.JarEntry;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -32,7 +33,7 @@ public class ClientList implements Serializable {
 
 	@PostConstruct
 	private void init() {
-		values = clientBean.findAll();
+		values = clientBean.findAll(); 
 
 	}
 
